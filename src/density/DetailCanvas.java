@@ -4,6 +4,7 @@ import processing.core.PApplet;
 
 import java.util.ArrayList;
 
+import database.DensityData;
 import database.Point;
 import database.ShapePolygon;
 
@@ -13,12 +14,11 @@ public class DetailCanvas extends PApplet {
 	ArrayList<ShapePolygon> sList;
 
 	public void setup() {
-
 		int index = 6;
-		x = (int) dt.windows[index * 2] * 100;
-		y = (int) dt.windows[index * 2 + 1] * 100;
+		x = (int) dt.getEmptyWindowList().get(index).x * 100;
+		y = (int) dt.getEmptyWindowList().get(index).y * 100;
 		windowSize = 500;
-		sList = dt.getWindowShapes(x, y, windowSize);
+		sList = dt.getShapesinWindow(x, y, windowSize);
 		size(windowSize * 2 + 100, windowSize * 2 + 100);
 		System.out.println(sList.size());
 	}

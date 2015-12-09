@@ -7,13 +7,11 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import database.DensityData;
+
 public class MainFrame {
 
 	DensityData dt = new DensityData();
-
-	public MainFrame() {
-		dt.getEmptyAreaList();
-	}
 
 	public void addComponentsToPane(Container pane) {
 
@@ -25,7 +23,7 @@ public class MainFrame {
 		OveviewCanvas oc = new OveviewCanvas(this.dt);
 		pane.add(oc, BorderLayout.CENTER);// BorderLayout.LINE_START);
 		oc.init();
-		oc.setPreferredSize(new Dimension(dt.xWidth, dt.yWidth+40));
+		oc.setPreferredSize(new Dimension(dt.getWidth(), dt.getHeight()+40));
 
 	}
 
@@ -36,7 +34,7 @@ public class MainFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// Set up the content pane.
 		addComponentsToPane(frame.getContentPane());
-		frame.setPreferredSize(new Dimension(dt.xWidth, dt.yWidth+40));
+		frame.setPreferredSize(new Dimension(dt.getWidth(), dt.getHeight()+40));
 		frame.pack();
 		frame.setVisible(true);
 	}

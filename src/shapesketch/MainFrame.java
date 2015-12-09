@@ -11,10 +11,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import database.Data;
+import database.ShapeSketchData;
 //mainframe for UI
 public class MainFrame {
-	Data data = new Data();
+	ShapeSketchData data = new ShapeSketchData();
 
 	public void addComponentsToPane(Container pane) {
 

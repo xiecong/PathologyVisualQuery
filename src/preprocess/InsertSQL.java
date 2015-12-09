@@ -9,7 +9,7 @@ import java.io.IOException;
 //insert data into database
 public class InsertSQL {
 
-	public static void getOneMargin() {
+	public static void readData() {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(
 					"data/features.txt"));
@@ -58,7 +58,7 @@ public class InsertSQL {
 			}
 			BufferedWriter output = new BufferedWriter(new FileWriter(f));
 
-			output.write("TRUNCATE TABLE markup2 IMMEDIATE;\n");
+			output.write("TRUNCATE TABLE markup IMMEDIATE;\n");
 
 			for (final File fileEntry : folder.listFiles()) {
 				if (fileEntry.isDirectory()) {
@@ -66,9 +66,9 @@ public class InsertSQL {
 				} else {
 					if (!fileEntry.getName().equals(".DS_Store")) {
 						output.write("import from " + fileEntry.getPath()
-								+ " of del insert into markup2;\n");
+								+ " of del insert into markup;\n");
 						System.out.println("import from " + fileEntry.getPath()
-								+ " of del insert into markup2;");
+								+ " of del insert into markup;");
 					}
 				}
 			}
@@ -81,6 +81,6 @@ public class InsertSQL {
 
 	public static void main(String[] args) {
 		// Test.getOneMargin();
-			InsertSQL.write(new File("D:/Workspace/DB2/data/markup"));
+			InsertSQL.write(new File("D:/Workspace/DB2/data"));
 	}
 }

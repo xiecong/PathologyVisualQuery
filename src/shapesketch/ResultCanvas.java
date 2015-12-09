@@ -1,11 +1,11 @@
 package shapesketch;
 
-import database.Data;
+import database.ShapeSketchData;
 import database.ShapePolygon;
 import processing.core.PApplet;
 //canvas for returned result
 public class ResultCanvas extends PApplet {
-	Data data;
+	ShapeSketchData data;
 	int wHeight = 60;
 	int canvasWidth = 200;
 	float handleX;
@@ -17,7 +17,7 @@ public class ResultCanvas extends PApplet {
 	int windowWidth;
 	float translateY = 0;
 
-	public ResultCanvas(Data data) {
+	public ResultCanvas(ShapeSketchData data) {
 		this.data = data;
 	}
 

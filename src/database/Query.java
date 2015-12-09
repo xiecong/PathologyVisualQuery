@@ -16,14 +16,18 @@ public class Query {
 	String password = "123456";
 	Connection con;
 	Statement stmt;
-	Data data;
+	ShapeSketchData shapeSketchdata;
+	DensityData densityData;
 
 	/*
 	 * public static void main(String[] args) { Query st = new Query();
 	 * st.connection(); // st.query(); st.writetoFile(); st.close(); }
 	 */
-	public Query(Data data) {
-		this.data = data;
+	public Query(ShapeSketchData data) {
+		this.shapeSketchdata = data;
+	}
+	public Query(DensityData densityData){
+		this.densityData = densityData;
 	}
 
 	public Query() {
@@ -52,15 +56,40 @@ public class Query {
 		}
 	}
 
-	public ArrayList<ShapePolygon> idsQuery(HashSet<String> markupids){
+	public ArrayList<ShapePolygon> idsQuery(HashSet<String> markupids) {
 		ArrayList<ShapePolygon> shapeList = new ArrayList<ShapePolygon>();
 		try {
-			String query = "select * from markup2";
+			String query = "select * from markup";
 			ResultSet rs = stmt.executeQuery(query.toUpperCase());
 			while (rs.next()) {
-				if(markupids.contains(rs.getString("markup_id").trim())){
+				if (markupids.contains(rs.getString("markup_id").trim())) {
 					shapeList.add(new ShapePolygon(rs.getString("polygon")));
-				}	
+				}
+			}
+			rs.close();
+
+		} catch (SQLException ex) {
+			System.err.println("SQLException information");
+			while (ex != null) {
+				System.err.println("Error msg: " + ex.getMessage());
+				System.err.println("SQLSTATE: " + ex.getSQLState());
+				System.err.println("Error code: " + ex.getErrorCode());
+				ex.printStackTrace();
+				ex = ex.getNextException();
+			}
+		}
+		return shapeList;
+	}
+
+	public ArrayList<ShapePolygon> windowQuery(double x1, double x2, double y1, double y2) {
+		ArrayList<ShapePolygon> shapeList = new ArrayList<ShapePolygon>();
+		try {
+			String query = "select * from markup where cx between " + x1 + " and " + x2 + " and cy between " + y1
+					+ " and " + y2;
+			System.out.println(query);
+			ResultSet rs = stmt.executeQuery(query.toUpperCase());
+			while (rs.next()) {
+				shapeList.add(new ShapePolygon(rs.getString("polygon")));
 			}
 			rs.close();
 
@@ -78,14 +107,15 @@ public class Query {
 	}
 
 	public void centerQuery() {
-		ArrayList<String> clist = new ArrayList<String>();
 		try {
-			String query = "select * from markup2";
+			String query = "select * from markup";
 			ResultSet rs = stmt.executeQuery(query.toUpperCase());
 			while (rs.next()) {
-				ShapePolygon sp = new ShapePolygon(rs.getString("polygon"));
-				clist.add(rs.getString("markup_id") + "," + sp.cx + "," + sp.cy);
-
+				double x = rs.getDouble("cx");
+				double y = rs.getDouble("cy");
+				int xIndex = (int) (x / 100);
+				int yIndex = (int) (y / 100);
+				densityData.getTiles()[xIndex * densityData.getHeight() + yIndex]++;
 			}
 			// Close the ResultSet
 			rs.close();
@@ -100,13 +130,12 @@ public class Query {
 				ex = ex.getNextException();
 			}
 		}
-		this.write(clist, "data/centroid.txt");
 	}
 
 	public void matchShape(ArrayList<Double> sketchList) {
-		data.clearShapes();
+		shapeSketchdata.clearShapes();
 		try {
-			String query = "select * from markup2 fetch first 100000 rows only";
+			String query = "select * from markup fetch first 100000 rows only";
 			ResultSet rs = stmt.executeQuery(query.toUpperCase());
 			while (rs.next()) {
 				String[] turnings = rs.getString("turnings").trim().split(",");
@@ -117,7 +146,7 @@ public class Query {
 				}
 				double dis = ShapePolygon.turningDistant1D(tList, sketchList);
 				if (dis < 9) {
-					data.addShape(rs.getString("polygon"));
+					shapeSketchdata.addShape(rs.getString("polygon"));
 					// System.out.println(rs.getString("markup_id").trim());
 				}
 			}
@@ -134,6 +163,42 @@ public class Query {
 				ex = ex.getNextException();
 			}
 		}
+	}
+
+	public void queryTest2() {
+		ArrayList<String> outputList = new ArrayList<String>();
+		try {
+			String query = "select * from markup";
+			ResultSet rs = stmt.executeQuery(query.toUpperCase());
+			int count = 0;
+			while (rs.next()) {
+
+				ShapePolygon sp = new ShapePolygon(rs.getString("polygon"));
+				String resultStr = rs.getString("markup_id").trim() + ",\"" + rs.getString("polygon").trim() + "\",\""
+						+ rs.getString("turnings").trim() + "\",\"" + rs.getString("angles").trim() + "\"," + sp.cx
+						+ "," + sp.cy;
+				outputList.add(resultStr);
+				count++;
+				if (count % 100000 == 0) {
+					write(outputList, "data/markup_" + count + ".csv");
+					outputList.clear();
+				}
+			}
+			write(outputList, "data/markup_" + count + ".csv");
+			outputList.clear();
+			rs.close();
+
+		} catch (SQLException ex) {
+			System.err.println("SQLException information");
+			while (ex != null) {
+				System.err.println("Error msg: " + ex.getMessage());
+				System.err.println("SQLSTATE: " + ex.getSQLState());
+				System.err.println("Error code: " + ex.getErrorCode());
+				ex.printStackTrace();
+				ex = ex.getNextException();
+			}
+		}
+
 	}
 
 	public void close() {

@@ -1,31 +1,32 @@
 package density;
 
+import database.DensityData;
 import processing.core.PApplet;
 
 public class OveviewCanvas extends PApplet {
 	DensityData dt;
 
-	public OveviewCanvas(DensityData dt){
+	public OveviewCanvas(DensityData dt) {
 		this.dt = dt;
 	}
 
 	public void setup() {
-		size(dt.xWidth, dt.yWidth);
+		size(dt.getWidth(), dt.getHeight());
 	}
 
 	public void draw() {
 		background(0);
-		for (int i = 0; i < dt.tiles.length; i++) {
-			int x = i / dt.yWidth;
-			int y = i % dt.yWidth;
+		for (int i = 0; i < dt.getTiles().length; i++) {
+			int x = i / dt.getHeight();
+			int y = i % dt.getHeight();
 			noStroke();
-			fill(255 - dt.tiles[i] * 255 / 36.0f);
+			fill(255 - dt.getTiles()[i] * 255 / 36.0f);
 			rect(x, y, 1, 1);
 		}
 		stroke(255, 0, 0);
 		noFill();
-		for (int i = 0; i < dt.emptyWindowList.size(); i++) {
-			ellipse((int) dt.emptyWindowList.get(i).x, (int) dt.emptyWindowList.get(i).y, 12, 12);
+		for (int i = 0; i < dt.getEmptyWindowList().size(); i++) {
+			ellipse((int) dt.getEmptyWindowList().get(i).x, (int) dt.getEmptyWindowList().get(i).y, 12, 12);
 		}
 	}
 }
