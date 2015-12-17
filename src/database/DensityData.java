@@ -12,6 +12,107 @@ public class DensityData {
 	int maxDensity = 0;
 	ArrayList<Point> emptyWindowList = new ArrayList<Point>();
 	ArrayList<ShapePolygon> sList = new ArrayList<ShapePolygon>();
+	int sketchSize = 10;
+	double[] sketch = new double[sketchSize * sketchSize];
+	ArrayList<Point> SketchResultList = new ArrayList<Point>();
+	int selectedSketch = -1;
+
+	public ArrayList<Point> getSketchList() {
+		return SketchResultList;
+	}
+
+	public void clearSketch() {
+		for (int i = 0; i < sketch.length; i++) {
+			sketch[i] = 0;
+		}
+	}
+
+	public void setSelectedSketch(int index) {
+		this.selectedSketch = -1;
+		if (index >= 0 && index < SketchResultList.size()) {
+			Point p = SketchResultList.get(index);
+			getShapesinWindow((int) p.x * 100, (int) p.x * 100 + 1000, (int) p.y * 100, (int) p.y * 100 + 1000);
+			this.selectedSketch = index;
+		}
+	}
+
+	public Point getSelectedWindow() {
+		if (this.selectedSketch >= 0 && this.selectedSketch < SketchResultList.size()) {
+			//System.out.println("not null");
+			return SketchResultList.get(this.selectedSketch);
+		} else {
+			return null;
+		}
+	}
+
+	public ArrayList<ShapePolygon> getShapeList() {
+		return sList;
+	}
+
+	public void search() {
+		SketchResultList.clear();
+		double threshold = 15;
+		double sketchMax = 0;
+		double sketchMin = Integer.MAX_VALUE;
+		for (int x = 0; x < sketchSize; x++) {
+			for (int y = 0; y < sketchSize; y++) {
+				int index = x * sketchSize + y;
+				if (sketchMax < this.sketch[index]) {
+					sketchMax = this.sketch[index];
+				}
+				if (sketchMin > this.sketch[index]) {
+					sketchMin = this.sketch[index];
+				}
+			}
+		}
+		sketchMax += 1;
+		double sketchRange = sketchMax - sketchMin;
+		System.out.println("sketch intensity " + sketchMin + "," + sketchMax);
+		int count = 0;
+		for (int x = 0; x < xWidth - sketchSize; x++) {
+			for (int y = 0; y < yWidth - sketchSize; y++) {
+				int max = 0;
+				int min = Integer.MAX_VALUE;
+				for (int i = 0; i < sketchSize; i++) {
+					for (int j = 0; j < sketchSize; j++) {
+						int index = (x + i) * yWidth + (y + j);
+						if (max < this.tiles[index]) {
+							max = this.tiles[index];
+						}
+						if (min > this.tiles[index]) {
+							min = this.tiles[index];
+						}
+					}
+				}
+				max++;
+				int range = max - min;
+				double diff = 0;
+				for (int i = 0; i < sketchSize; i++) {
+					for (int j = 0; j < sketchSize; j++) {
+
+						int index = (x + i) * yWidth + (y + j);
+						int index2 = i * sketchSize + j;
+						diff += Math.abs(1.0 * (this.tiles[index] - min) / range
+								- (this.sketch[index2] - sketchMin) / sketchRange);
+					}
+				}
+				if (diff < threshold) {
+					SketchResultList.add(new Point(x, y));
+					System.out.println(x * 100 + "," + (x + 10) * 100 + "," + y * 100 + "," + (y + 10) * 100);
+					count++;
+				}
+			}
+		}
+		System.out.println(count + " results");
+	}
+
+	public int getSketchSize() {
+		return sketchSize;
+	}
+
+	public double[] getSketch() {
+		return this.sketch;
+	}
 
 	public DensityData() {
 		this.initTilesFromFile();
@@ -66,18 +167,11 @@ public class DensityData {
 		}
 	}
 
-	public static void main(String[] args) {
-		// dt.findMinMax();
-		DensityData dt = new DensityData();
-	}
-
-	public ArrayList<ShapePolygon> getShapesinWindow(int x, int y, int windowSize) {
-		x += 50;
-		y += 50;
-		windowSize += 50;
+	public ArrayList<ShapePolygon> getShapesinWindow(int x1, int x2, int y1, int y2) {
 		Query q = new Query();
 		q.connection();
-		sList = q.windowQuery(x - windowSize, x + windowSize, y - windowSize, y + windowSize);
+		sList = q.windowQuery(x1, x2, y1, y2);
+		System.out.println(sList.size());
 		q.close();
 		return sList;
 	}

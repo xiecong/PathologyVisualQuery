@@ -93,6 +93,9 @@ public class ShapePolygon {
 	}
 
 	private void calculateTurningList() {
+		if(polygonList.size()==0){
+			return;
+		}
 		double[] perimeterArray = new double[polygonList.size()];
 		perimeterArray[0] = 0;
 		for (int i = 1; i < this.polygonList.size(); i++) {

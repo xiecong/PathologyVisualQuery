@@ -38,8 +38,8 @@ public class InsertSQL {
 			if (fileEntry.isDirectory()) {
 				listFilesForFolder(fileEntry);
 			} else {
-				System.out.println("import from " + fileEntry.getPath()
-						+ " of del insert into features;");
+				System.out.println("import from \"" + fileEntry.getPath()
+						+ "\" of del insert into features;");
 			}
 		}
 	}
@@ -65,10 +65,10 @@ public class InsertSQL {
 					listFilesForFolder(fileEntry);
 				} else {
 					if (!fileEntry.getName().equals(".DS_Store")) {
-						output.write("import from " + fileEntry.getPath()
-								+ " of del insert into markup;\n");
-						System.out.println("import from " + fileEntry.getPath()
-								+ " of del insert into markup;");
+						output.write("import from \"" + fileEntry.getPath()
+								+ "\" of del insert into markup;\n");
+						System.out.println("import from \"" + fileEntry.getPath()
+								+ "\" of del insert into markup;");
 					}
 				}
 			}
@@ -81,6 +81,6 @@ public class InsertSQL {
 
 	public static void main(String[] args) {
 		// Test.getOneMargin();
-			InsertSQL.write(new File("D:/Workspace/DB2/data"));
+			InsertSQL.write(new File("D:/Workspace/PathologyVisualQuery/data"));
 	}
 }

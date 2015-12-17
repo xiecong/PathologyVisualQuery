@@ -179,7 +179,7 @@ public class Query {
 						+ "," + sp.cy;
 				outputList.add(resultStr);
 				count++;
-				if (count % 100000 == 0) {
+				if (count % 10000 == 0) {
 					write(outputList, "data/markup_" + count + ".csv");
 					outputList.clear();
 				}

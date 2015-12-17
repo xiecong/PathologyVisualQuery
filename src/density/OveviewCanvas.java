@@ -4,10 +4,9 @@ import database.DensityData;
 import processing.core.PApplet;
 
 public class OveviewCanvas extends PApplet {
-	DensityData dt;
+	DensityData dt = new DensityData();
 
-	public OveviewCanvas(DensityData dt) {
-		this.dt = dt;
+	public OveviewCanvas() {
 	}
 
 	public void setup() {
@@ -26,7 +25,7 @@ public class OveviewCanvas extends PApplet {
 		stroke(255, 0, 0);
 		noFill();
 		for (int i = 0; i < dt.getEmptyWindowList().size(); i++) {
-			ellipse((int) dt.getEmptyWindowList().get(i).x, (int) dt.getEmptyWindowList().get(i).y, 12, 12);
+			//ellipse((int) dt.getEmptyWindowList().get(i).x, (int) dt.getEmptyWindowList().get(i).y, 12, 12);
 		}
 	}
 }
