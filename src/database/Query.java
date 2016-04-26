@@ -11,9 +11,9 @@ import java.util.HashSet;
 //do the query of DB2
 public class Query {
 
-	String url = "jdbc:db2://localhost:50000/SAMPLE";
-	String user = "Zhitian";
-	String password = "123456";
+	String url = "jdbc:db2://127.0.0.1:50000/SAMPLE";
+	String user = "xiecong";
+	String password = "Xc@227889";
 	Connection con;
 	Statement stmt;
 	ShapeSketchData shapeSketchdata;
@@ -106,7 +106,7 @@ public class Query {
 		return shapeList;
 	}
 
-	public void centerQuery() {
+	public void densityQuery() {
 		try {
 			String query = "select * from markup";
 			ResultSet rs = stmt.executeQuery(query.toUpperCase());
@@ -144,7 +144,7 @@ public class Query {
 				for (int i = 0; i < turnings.length; i++) {
 					tList.add(Double.parseDouble(turnings[i]));
 				}
-				double dis = ShapePolygon.turningDistant1D(tList, sketchList);
+				double dis = ShapePolygon.turningDistantceL1(tList, sketchList);
 				if (dis < 9) {
 					shapeSketchdata.addShape(rs.getString("polygon"));
 					// System.out.println(rs.getString("markup_id").trim());
@@ -165,7 +165,7 @@ public class Query {
 		}
 	}
 
-	public void queryTest2() {
+	public void export() {
 		ArrayList<String> outputList = new ArrayList<String>();
 		try {
 			String query = "select * from markup";

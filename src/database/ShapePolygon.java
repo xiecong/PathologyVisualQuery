@@ -157,7 +157,7 @@ public class ShapePolygon {
 		}
 	}
 
-	public static double turningDistant1D(ArrayList<Double> tList1, ArrayList<Double> tList2) {
+	public static double turningDistantceL1(ArrayList<Double> tList1, ArrayList<Double> tList2) {
 		double dis1 = 0;
 		double dis2 = 0;
 		for (int i = 0; i < tList1.size(); i++) {

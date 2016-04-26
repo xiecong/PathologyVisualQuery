@@ -138,7 +138,7 @@ public class DensityData {
 	public void initTilesFromDataSet() {
 		Query q = new Query(this);
 		q.connection();
-		q.centerQuery();
+		q.densityQuery();
 		q.close();
 		for (int i = 0; i < tiles.length; i++) {
 			System.out.print(tiles[i] + ",");

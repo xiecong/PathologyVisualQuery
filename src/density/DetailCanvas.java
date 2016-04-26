@@ -26,7 +26,7 @@ public class DetailCanvas extends PApplet {
 		 * - windowSize, y + windowSize + 100); size(windowSize * 2 + 100,
 		 * windowSize * 2 + 100); System.out.println(sList.size());
 		 */
-		size(1000, 1000);
+		size(500, 500);
 		// sList = dt.getShapesinWindow(2800,3900,17400,18500);
 	}
 

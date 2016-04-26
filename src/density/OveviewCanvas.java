@@ -11,6 +11,7 @@ public class OveviewCanvas extends PApplet {
 
 	public void setup() {
 		size(dt.getWidth(), dt.getHeight());
+		System.out.println(dt.getWidth()+", "+dt.getHeight());
 	}
 
 	public void draw() {

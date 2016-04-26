@@ -61,7 +61,7 @@ public class MainFrame {
 		DetailCanvas dc = new DetailCanvas(dt);
 		pane.add(dc, BorderLayout.LINE_END);
 		dc.init();
-		dc.setPreferredSize(new Dimension(1000, 1000));
+		dc.setPreferredSize(new Dimension(500, 500));
 
 	}
 
@@ -73,7 +73,7 @@ public class MainFrame {
 		// Set up the content pane.
 		addComponentsToPane(frame.getContentPane());
 		System.out.println(dt.getSketchSize()*50);
-		frame.setPreferredSize(new Dimension(dt.getSketchSize()*50+1220, dt.getSketchSize()*50+115));
+		frame.setPreferredSize(new Dimension(dt.getSketchSize()*50+720, dt.getSketchSize()*50+115));
 		frame.pack();
 		frame.setVisible(true);
 	}
