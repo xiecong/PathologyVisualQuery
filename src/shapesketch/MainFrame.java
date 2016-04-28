@@ -11,11 +11,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import weka.gui.hierarchyvisualizer.HierarchyVisualizer;
+import cluster.Cluster;
 import database.ShapeSketchData;
 //mainframe for UI
 public class MainFrame {
 	ShapeSketchData data = new ShapeSketchData();
-
+	HierarchyVisualizer visualizer;
 	public void addComponentsToPane(Container pane) {
 
 		if (!(pane.getLayout() instanceof BorderLayout)) {
@@ -39,6 +41,14 @@ public class MainFrame {
 			public void actionPerformed(ActionEvent e) {
 				data.matchShape();
 				statuslabel.setText(data.getResult().size()+" results found");
+				Cluster cluster = new Cluster();
+				cluster.clustering(30, data.getResult());
+				try {
+					visualizer = new HierarchyVisualizer(cluster.clusterer.graph());
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 
