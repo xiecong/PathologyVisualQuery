@@ -11,9 +11,9 @@ import java.util.HashSet;
 //do the query of DB2
 public class Query {
 
-	String url = "jdbc:db2://127.0.0.1:50000/SAMPLE";
-	String user = "xiecong";
-	String password = "Xc@227889";
+	String url = "jdbc:mysql://127.0.0.1:3306/SAMPLE";
+	String user = "root";
+	String password = "";
 	Connection con;
 	Statement stmt;
 	ShapeSketchData shapeSketchdata;
@@ -36,7 +36,7 @@ public class Query {
 	public void connection() {
 		try {
 			// Load the driver
-			Class.forName("com.ibm.db2.jcc.DB2Driver");
+			//Class.forName("com.ibm.db2.jcc.DB2Driver");
 
 			// Create the connection using the IBM Data Server Driver for JDBC
 			// and SQLJ
@@ -46,11 +46,10 @@ public class Query {
 
 			// Create the Statement
 			stmt = con.createStatement();
-		} catch (ClassNotFoundException e) {
+		} catch (Exception e) {
 			System.err.println("Could not load JDBC driver");
 			System.out.println("Exception: " + e);
 			e.printStackTrace();
-		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -135,7 +134,7 @@ public class Query {
 	public void matchShape(ArrayList<Double> sketchList) {
 		shapeSketchdata.clearShapes();
 		try {
-			String query = "select * from markup fetch first 100000 rows only";
+			String query = "select * from markup limit 100000";
 			ResultSet rs = stmt.executeQuery(query.toUpperCase());
 			while (rs.next()) {
 				String[] turnings = rs.getString("turnings").trim().split(",");
