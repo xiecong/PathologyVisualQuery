@@ -85,10 +85,10 @@ public class ShapePolygon {
 		sampleList.clear();
 		angleList.clear();
 		turningList.clear();
-		double[] fs = Features.centroid(polygonList);
+		double[] fs = ShapeFeatures.centroid(polygonList);
 		cx = fs[1];
 		cy = fs[2];
-		perimeter = Features.perimeter(polygonList);
+		perimeter = ShapeFeatures.perimeter(polygonList);
 		this.calculateTurningList();
 	}
 

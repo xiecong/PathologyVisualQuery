@@ -3,14 +3,14 @@ package density;
 import database.DensityData;
 import processing.core.PApplet;
 
-public class DensitySketch extends PApplet {
+public class SketchCanvas extends PApplet {
 	int rectSize = 50;
 	DensityData densityData = new DensityData();
 	int sketchSize = 0;
 	int sketchRadius = 1;
 	double[] increment = { 0.5, 1, 0.5, 1, 1.5, 1, 0.5, 1, 0.5 };
 
-	public DensitySketch(DensityData densityData) {
+	public SketchCanvas(DensityData densityData) {
 		this.densityData = densityData;
 	}
 

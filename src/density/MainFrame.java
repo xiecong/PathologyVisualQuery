@@ -12,8 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import database.DensityData;
-import shapesketch.ResultCanvas;
-import shapesketch.SketchCanvas;
 
 public class MainFrame {
 
@@ -44,7 +42,7 @@ public class MainFrame {
 			}
 		});
 
-		DensitySketch sk = new DensitySketch(dt);
+		SketchCanvas sk = new SketchCanvas(dt);
 		pane.add(sk, BorderLayout.WEST);// BorderLayout.LINE_START);
 		sk.init();
 		sk.setPreferredSize(new Dimension(dt.getSketchSize()*50+2, dt.getSketchSize()*50+40));
@@ -53,7 +51,7 @@ public class MainFrame {
 		pane.add(statuspanel, BorderLayout.PAGE_END);
 		statuspanel.add(statuslabel);
 
-		DensityResult rc = new DensityResult(dt);
+		ResultCanvas rc = new ResultCanvas(dt);
 		pane.add(rc, BorderLayout.CENTER);
 		rc.init();
 		rc.setPreferredSize(new Dimension(200, dt.getSketchSize()*50+40));

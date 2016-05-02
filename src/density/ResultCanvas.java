@@ -4,10 +4,10 @@ import database.DensityData;
 import database.Point;
 import processing.core.PApplet;
 
-public class DensityResult extends PApplet {
+public class ResultCanvas extends PApplet {
 	DensityData dt;
 
-	public DensityResult(DensityData dt) {
+	public ResultCanvas(DensityData dt) {
 		this.dt = dt;
 	}
 

@@ -13,11 +13,12 @@ import javax.swing.JPanel;
 
 import weka.gui.hierarchyvisualizer.HierarchyVisualizer;
 import cluster.Cluster;
+import cluster.NewickTree;
+import cluster.NewickTree.Node;
 import database.ShapeSketchData;
 //mainframe for UI
 public class MainFrame {
 	ShapeSketchData data = new ShapeSketchData();
-	HierarchyVisualizer visualizer;
 	public void addComponentsToPane(Container pane) {
 
 		if (!(pane.getLayout() instanceof BorderLayout)) {
@@ -42,13 +43,8 @@ public class MainFrame {
 				data.matchShape();
 				statuslabel.setText(data.getResult().size()+" results found");
 				Cluster cluster = new Cluster();
-				cluster.clustering(30, data.getResult());
-				try {
-					visualizer = new HierarchyVisualizer(cluster.clusterer.graph());
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				String graph = cluster.shapeClustering(30, data.getResult());
+				data.setTree(graph.substring(7)+":0");
 			}
 		});
 

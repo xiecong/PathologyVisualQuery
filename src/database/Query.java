@@ -4,11 +4,14 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashSet;
 
-//do the query of DB2
+//do the query of DataBase
 public class Query {
 
 	String url = "jdbc:mysql://127.0.0.1:3306/SAMPLE";
@@ -53,31 +56,6 @@ public class Query {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	public ArrayList<ShapePolygon> idsQuery(HashSet<String> markupids) {
-		ArrayList<ShapePolygon> shapeList = new ArrayList<ShapePolygon>();
-		try {
-			String query = "select * from markup";
-			ResultSet rs = stmt.executeQuery(query.toUpperCase());
-			while (rs.next()) {
-				if (markupids.contains(rs.getString("markup_id").trim())) {
-					shapeList.add(new ShapePolygon(rs.getString("polygon")));
-				}
-			}
-			rs.close();
-
-		} catch (SQLException ex) {
-			System.err.println("SQLException information");
-			while (ex != null) {
-				System.err.println("Error msg: " + ex.getMessage());
-				System.err.println("SQLSTATE: " + ex.getSQLState());
-				System.err.println("Error code: " + ex.getErrorCode());
-				ex.printStackTrace();
-				ex = ex.getNextException();
-			}
-		}
-		return shapeList;
 	}
 
 	public ArrayList<ShapePolygon> windowQuery(double x1, double x2, double y1, double y2) {
@@ -216,66 +194,6 @@ public class Query {
 			e.printStackTrace();
 		}
 	}
-
-	// query from ECCENTRICITY, area, and MINOR_AXIS / MAJOR_AXIS
-	private void queryTest() {
-		try {
-			// this is the query
-			// String query =
-			// "select features.markup_id, AREA , PERIMETER , ECCENTRICITY ,
-			// CIRCULARITY , MAJOR_AXIS ,MINOR_AXIS , EXTENT_RATIO ,polygon from
-			// features, markup where features.markup_id = markup.markup_id
-			// order by features.major_axis desc fetch first 10 rows only";
-			String query = "select * from markup";
-
-			System.out.println("Query is: \"" + query + "\"");
-			// Execute a query and generate a ResultSet instance
-			ResultSet rs = stmt.executeQuery(query.toUpperCase());
-			System.out.println("Result is:");
-			// Print all of the employee numbers to standard output device
-			while (rs.next()) {
-				/*
-				 * System.out.println(rs.getString("major_axis") + ";" +
-				 * rs.getString("minor_axis") + ";" + rs.getString("polygon"));
-				 */
-				// String output = rs.getString("markup_id").trim() + ",\"" +
-				// rs.getString("polygon").trim() + "\",\"";
-				ShapePolygon s = new ShapePolygon(rs.getString("polygon"));
-
-				ArrayList<Double> tList = s.turningList;
-				ArrayList<Double> aList = s.angleList;
-				String turnings = "\"";
-				for (int i = 0; i < tList.size(); i++) {
-					turnings += tList.get(i);
-					if (i != aList.size() - 1) {
-						turnings += ",";
-					}
-				}
-				turnings += "\"";
-				String angles = "\"";
-				for (int i = 0; i < aList.size(); i++) {
-					angles += aList.get(i);
-					if (i != aList.size() - 1) {
-						angles += ",";
-					}
-				}
-				angles += "\"";
-			}
-			// Close the ResultSet
-			rs.close();
-
-		} catch (SQLException ex) {
-			System.err.println("SQLException information");
-			while (ex != null) {
-				System.err.println("Error msg: " + ex.getMessage());
-				System.err.println("SQLSTATE: " + ex.getSQLState());
-				System.err.println("Error code: " + ex.getErrorCode());
-				ex.printStackTrace();
-				ex = ex.getNextException(); // For drivers that support chained
-											// exceptions
-			}
-		}
-	} // End main
 
 	private void write(ArrayList<String> outputList, String fileName) {
 

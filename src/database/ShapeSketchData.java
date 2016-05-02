@@ -1,10 +1,14 @@
 package database;
 
 import java.util.ArrayList;
+
+import cluster.NewickTree;
+import cluster.NewickTree.Node;
 //data structure for storing the sketch and result set
 public class ShapeSketchData {
 	ShapePolygon sketch = new ShapePolygon();
 	ArrayList<ShapePolygon> shapes = new ArrayList<ShapePolygon>();
+	Node tree;
 	Query query = new Query(this);
 	// boolean isSketch = false;
 	boolean sketching = false;
@@ -13,6 +17,9 @@ public class ShapeSketchData {
 
 	public boolean getNewSketch() {
 		return newSketch;
+	}
+	public void setTree(String graph){
+		tree = NewickTree.parse(graph);
 	}
 
 	public void setSketch(ArrayList<Point> polygonList) {

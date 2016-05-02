@@ -2,7 +2,7 @@ package database;
 
 import java.util.ArrayList;
 //class for computing the features
-public class Features {
+public class ShapeFeatures {
 
 	public static double[] centroid(ArrayList<Point> pointList) {
 		// double area = 0;
@@ -87,8 +87,8 @@ public class Features {
 			String y = points[i].split(" ")[1];
 			pointList.add(new Point(Integer.parseInt(x), Integer.parseInt(y)));
 		}
-		Features.centroid(pointList);
-		Features.axis(pointList);
+		ShapeFeatures.centroid(pointList);
+		ShapeFeatures.axis(pointList);
 	}
 
 }
