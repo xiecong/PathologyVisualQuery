@@ -1,7 +1,7 @@
 package database;
 
 import java.util.ArrayList;
-//datastructure for polygon
+//data structure for polygon
 //polygonList: original polygon
 //sampleList, 30 control points around the perimeter
 //angleList, the difference of each edge compare to the previous edge

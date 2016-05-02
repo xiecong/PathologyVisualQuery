@@ -1,20 +1,21 @@
 package shapesketch;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 
-import database.ShapeSketchData;
+import database.ShapeData;
 import database.Point;
 import database.ShapePolygon;
 import processing.core.PApplet;
 //canvas for sketch input
 //start point is different!
 public class SketchCanvas extends PApplet {
-	ShapeSketchData data;
+	ShapeData data;
 	// ShapePolygon sketch;
 	float radius = 10;
 	int selectId = -1;
 
-	public SketchCanvas(ShapeSketchData data) {
+	public SketchCanvas(ShapeData data, Dimension dimension) {
 		// this.sketch = data.getSketch();
 		this.data = data;
 	}

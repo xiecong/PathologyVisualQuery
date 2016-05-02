@@ -1,11 +1,14 @@
 package shapesketch;
 
-import database.ShapeSketchData;
+import java.awt.Dimension;
+
+import database.ShapeData;
 import database.ShapePolygon;
 import processing.core.PApplet;
+
 //canvas for returned result
 public class ResultCanvas extends PApplet {
-	ShapeSketchData data;
+	ShapeData data;
 	int wHeight = 60;
 	int canvasWidth = 200;
 	float handleX;
@@ -17,7 +20,8 @@ public class ResultCanvas extends PApplet {
 	int windowWidth;
 	float translateY = 0;
 
-	public ResultCanvas(ShapeSketchData data) {
+	public ResultCanvas(ShapeData data, Dimension dimension) {
+		this.canvasWidth = dimension.width;
 		this.data = data;
 	}
 

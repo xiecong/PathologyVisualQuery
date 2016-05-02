@@ -8,59 +8,61 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import weka.gui.hierarchyvisualizer.HierarchyVisualizer;
 import cluster.Cluster;
-import cluster.NewickTree;
-import cluster.NewickTree.Node;
-import database.ShapeSketchData;
+import database.ShapeData;
+
 //mainframe for UI
 public class MainFrame {
-	ShapeSketchData data = new ShapeSketchData();
+	ShapeData data = new ShapeData();
+
 	public void addComponentsToPane(Container pane) {
-
-		if (!(pane.getLayout() instanceof BorderLayout)) {
-			pane.add(new JLabel("Container doesn't use BorderLayout!"));
-			return;
-		}
-
 		JPanel buttonpanel = new JPanel();
-		final JLabel statuslabel = new JLabel("Ready");
-		pane.add(buttonpanel, BorderLayout.PAGE_START);
+		// final JLabel statuslabel = new JLabel("Ready");
+		pane.add(buttonpanel, BorderLayout.NORTH);
 		JButton sketchbutton = new JButton("newsketch");
 		sketchbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				data.clearSketch();
 			}
 		});
-		buttonpanel.add(sketchbutton, BorderLayout.CENTER);
+		buttonpanel.add(sketchbutton);
 		JButton searchbutton = new JButton("search");
-		buttonpanel.add(searchbutton, BorderLayout.CENTER);
+		buttonpanel.add(searchbutton);
 		searchbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				data.matchShape();
-				statuslabel.setText(data.getResult().size()+" results found");
+				// statuslabel.setText(data.getResult().size()+" results
+				// found");
 				Cluster cluster = new Cluster();
 				String graph = cluster.shapeClustering(30, data.getResult());
-				data.setTree(graph.substring(7)+":0");
+				data.setTree(graph.substring(7) + ":0");
 			}
 		});
-
-		SketchCanvas sk = new SketchCanvas(data);
-		pane.add(sk, BorderLayout.CENTER);// BorderLayout.LINE_START);
+		
+		Dimension skDimension = new Dimension(600, 400);
+		SketchCanvas sk = new SketchCanvas(data, skDimension);
+		pane.add(sk, BorderLayout.LINE_START);
 		sk.init();
-		sk.setPreferredSize(new Dimension(800, 800));
+		sk.setPreferredSize(skDimension);
 
-		JPanel statuspanel = new JPanel();
-		pane.add(statuspanel, BorderLayout.PAGE_END);
-		statuspanel.add(statuslabel);
-
-		ResultCanvas rc = new ResultCanvas(data);
+		Dimension rcDimension = new Dimension(600, 400);
+		ResultCanvas rc = new ResultCanvas(data, rcDimension);
 		pane.add(rc, BorderLayout.LINE_END);
 		rc.init();
-		rc.setPreferredSize(new Dimension(200, 800));
+		rc.setPreferredSize(rcDimension);
+		
+		ClusterCanvas cc = new ClusterCanvas(data);
+		pane.add(cc, BorderLayout.PAGE_END);
+		cc.init();
+		cc.setPreferredSize(new Dimension(1200, 250));
+
+		/*
+		 * JPanel statuspanel = new JPanel(); pane.add(statuspanel,
+		 * BorderLayout.PAGE_END); statuspanel.add(statuslabel);
+		 */
+
 	}
 
 	/**
@@ -77,7 +79,7 @@ public class MainFrame {
 		// Use the content pane's default BorderLayout. No need for
 		// setLayout(new BorderLayout());
 		// Display the window.
-		frame.setPreferredSize(new Dimension(1000, 800));
+		//frame.setSize(new Dimension(1200, 800));
 		frame.pack();
 		frame.setVisible(true);
 	}

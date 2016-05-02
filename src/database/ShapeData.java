@@ -2,13 +2,15 @@ package database;
 
 import java.util.ArrayList;
 
-import cluster.NewickTree;
-import cluster.NewickTree.Node;
+import cluster.NewickNode;
+
 //data structure for storing the sketch and result set
-public class ShapeSketchData {
+public class ShapeData {
 	ShapePolygon sketch = new ShapePolygon();
 	ArrayList<ShapePolygon> shapes = new ArrayList<ShapePolygon>();
-	Node tree;
+	NewickNode root;
+	int clusterNum = 5;
+	ArrayList<NewickNode> clusters = new ArrayList<NewickNode>();
 	Query query = new Query(this);
 	// boolean isSketch = false;
 	boolean sketching = false;
@@ -18,8 +20,19 @@ public class ShapeSketchData {
 	public boolean getNewSketch() {
 		return newSketch;
 	}
-	public void setTree(String graph){
-		tree = NewickTree.parse(graph);
+
+	public void setTree(String graph) {
+		root = NewickNode.parse(graph);
+		NewickNode.getData(root, shapes);
+		System.out.println(root.indexList.size());
+		for (int i = 0; i < root.turningList.size(); i++) {
+			System.out.print(", " + root.turningList.get(i));
+		}
+		System.out.println();
+		for (int i = 0; i < shapes.get(0).turningList.size(); i++) {
+			System.out.print(", " + shapes.get(0).turningList.get(i));
+		}
+		System.out.println();
 	}
 
 	public void setSketch(ArrayList<Point> polygonList) {

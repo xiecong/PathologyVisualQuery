@@ -19,14 +19,14 @@ public class Query {
 	String password = "";
 	Connection con;
 	Statement stmt;
-	ShapeSketchData shapeSketchdata;
+	ShapeData shapeSketchdata;
 	DensityData densityData;
 
 	/*
 	 * public static void main(String[] args) { Query st = new Query();
 	 * st.connection(); // st.query(); st.writetoFile(); st.close(); }
 	 */
-	public Query(ShapeSketchData data) {
+	public Query(ShapeData data) {
 		this.shapeSketchdata = data;
 	}
 	public Query(DensityData densityData){
