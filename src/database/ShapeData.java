@@ -2,6 +2,7 @@ package database;
 
 import java.util.ArrayList;
 
+import cluster.Cluster;
 import cluster.NewickNode;
 
 //data structure for storing the sketch and result set
@@ -10,6 +11,7 @@ public class ShapeData {
 	ArrayList<ShapePolygon> shapes = new ArrayList<ShapePolygon>();
 	NewickNode root;
 	int clusterNum = 5;
+	public int selectedCluster = -1;
 	public ArrayList<NewickNode> clusters = new ArrayList<NewickNode>();
 	Query query = new Query(this);
 	// boolean isSketch = false;
@@ -22,11 +24,11 @@ public class ShapeData {
 	}
 
 	public void setTree(String graph) {
-		root = NewickNode.parse(graph);
-		NewickNode.getData(root, shapes);
+		root = Cluster.parse(graph);
+		Cluster.getData(root, shapes);
 		System.out.println(root.indexList.size());
-		for (int i = 0; i < root.turningList.size(); i++) {
-			System.out.print(", " + root.turningList.get(i));
+		for (int i = 0; i < root.averageData.size(); i++) {
+			System.out.print(", " + root.averageData.get(i));
 		}
 		System.out.println();
 		for (int i = 0; i < shapes.get(0).turningList.size(); i++) {
@@ -39,7 +41,7 @@ public class ShapeData {
 		clusters.add(root);
 		for (int i = 1; i < clusterNum; i++) {
 			int split = -1;
-			double val = Double.MAX_VALUE;
+			double val = Double.MAX_VALUE;//-1;
 			for (int j = 0; j < clusters.size(); j++) {
 				if (val > clusters.get(j).value) {
 					split = j;
@@ -56,7 +58,7 @@ public class ShapeData {
 	public void setSketch(ArrayList<Point> polygonList) {
 		String shapeString = "";
 		for (int i = 0; i < polygonList.size(); i++) {
-			shapeString += (polygonList.get(i).x * 10 + 400) + " " + (polygonList.get(i).y * 10 + 400);
+			shapeString += (polygonList.get(i).x * 10+300) + " " + (polygonList.get(i).y * 10+200);
 			if (i != polygonList.size() - 1) {
 				shapeString += ", ";
 			}

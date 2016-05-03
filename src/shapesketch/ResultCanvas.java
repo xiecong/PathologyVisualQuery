@@ -1,6 +1,7 @@
 package shapesketch;
 
 import java.awt.Dimension;
+import java.util.ArrayList;
 
 import database.ShapeData;
 import database.ShapePolygon;
@@ -31,10 +32,7 @@ public class ResultCanvas extends PApplet {
 		handleY = 0;// handleH / 2;
 	}
 
-	public void drawPolygon(int index) {
-		ShapePolygon s = data.getResult().get(index);
-		pushMatrix();
-		translate(canvasWidth / 2, (index + 0.5f) * wHeight);
+	public void drawPolygon(ShapePolygon s) {
 		// rect(-canvasWidth / 2, -0.5f * wHeight, canvasWidth, wHeight);
 		if (s != null) {
 			for (int i = 0; i < s.getSampleList().size() - 1; i++) {
@@ -45,7 +43,6 @@ public class ResultCanvas extends PApplet {
 				line(x1, y1, x2, y2);
 			}
 		}
-		popMatrix();
 	}
 
 	public void draw() {
@@ -59,7 +56,8 @@ public class ResultCanvas extends PApplet {
 
 		fill(handleFill);
 		rect(handleX, handleY, handleW, handleH);
-		if (isDraggable && mouseY > handleH / 2 && mouseY < height - handleH / 2) {
+		if (isDraggable && mouseY > handleH / 2
+				&& mouseY < height - handleH / 2) {
 			handleY = mouseY - handleH / 2;
 		}
 		pushMatrix();
@@ -67,21 +65,39 @@ public class ResultCanvas extends PApplet {
 		popMatrix();
 		pushMatrix();
 		if (wHeight * data.getResult().size() > 800) {
-			this.translateY = -handleY * (wHeight * data.getResult().size() - 800) / 800;
+			this.translateY = -handleY
+					* (wHeight * data.getResult().size() - 800) / 800;
 		} else {
 			this.translateY = 0;
 		}
 
 		translate(0, this.translateY);
 		// System.out.println(data.getResult().size());
-		for (int i = 0; i < data.getResult().size(); i++) {
-			drawPolygon(i);
+		if (data.selectedCluster == -1) {
+			for (int i = 0; i < data.getResult().size(); i++) {
+				pushMatrix();
+				translate(canvasWidth / 2, (i + 0.5f) * wHeight);
+				ShapePolygon s = data.getResult().get(i);
+				drawPolygon(s);
+				popMatrix();
+			}
+		} else {
+			ArrayList<Integer> indexList = data.clusters
+					.get(data.selectedCluster).indexList;
+			for (int i = 0; i < indexList.size(); i++) {
+				pushMatrix();
+				translate(canvasWidth / 2, (i + 0.5f) * wHeight);
+				ShapePolygon s = data.getResult().get(indexList.get(i));
+				drawPolygon(s);
+				popMatrix();
+			}
 		}
 		popMatrix();
 	}
 
 	public void mousePressed() {
-		if (mouseX > handleX && mouseX < handleX + handleW && mouseY > handleY && mouseY < handleY + handleH) {
+		if (mouseX > handleX && mouseX < handleX + handleW && mouseY > handleY
+				&& mouseY < handleY + handleH) {
 			isDraggable = true;
 			handleFill = color(100, 200, 255);
 		} else {
@@ -96,7 +112,8 @@ public class ResultCanvas extends PApplet {
 	}
 
 	public void mouseMoved() {
-		if (mouseX > handleX && mouseX < handleX + handleW && mouseY > handleY && mouseY < handleY + handleH) {
+		if (mouseX > handleX && mouseX < handleX + handleW && mouseY > handleY
+				&& mouseY < handleY + handleH) {
 			cursor(HAND);
 		} else {
 			cursor(ARROW);
