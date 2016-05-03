@@ -1,4 +1,4 @@
-package shapesketch;
+package shapeUI;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import cluster.Cluster;
 import database.ShapeData;
@@ -16,12 +17,12 @@ import database.ShapeData;
 //mainframe for UI
 public class MainFrame {
 	ShapeData data = new ShapeData();
-
+	JTextField textField;
 	public void addComponentsToPane(Container pane) {
 		JPanel buttonpanel = new JPanel();
 		// final JLabel statuslabel = new JLabel("Ready");
 		pane.add(buttonpanel, BorderLayout.NORTH);
-		JButton sketchbutton = new JButton("newsketch");
+		JButton sketchbutton = new JButton("new sketch");
 		sketchbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				data.clearSketch();
@@ -41,7 +42,17 @@ public class MainFrame {
 				data.getClusterAverage();
 			}
 		});
-		
+
+		textField = new JTextField(4);
+		JButton clusterbutton = new JButton("set cluster numbers");
+		clusterbutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				data.setClusterNum(Integer.parseInt(textField.getText()));
+			}
+		});
+
+		buttonpanel.add(textField);
+		buttonpanel.add(clusterbutton);
 		Dimension skDimension = new Dimension(600, 400);
 		SketchCanvas sk = new SketchCanvas(data, skDimension);
 		pane.add(sk, BorderLayout.LINE_START);

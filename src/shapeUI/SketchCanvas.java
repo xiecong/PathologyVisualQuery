@@ -1,4 +1,4 @@
-package shapesketch;
+package shapeUI;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -40,6 +40,8 @@ public class SketchCanvas extends PApplet {
 
 	public void draw() {
 		background(255);
+		fill(0);
+		text("Sketch",20,20);
 		noFill();
 		rect(0, 0, width - 1, height - 1);
 		drawSketch();

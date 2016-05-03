@@ -1,4 +1,4 @@
-package shapesketch;
+package shapeUI;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -51,8 +51,10 @@ public class ResultCanvas extends PApplet {
 		background(255);
 		// window decorations
 		stroke(0);
-		fill(255);
+		noFill();
 		rect(3, 0, canvasWidth - 1, height - 1);
+		fill(0);
+		text("query result", 20, 20);
 		fill(200);
 		rect(windowWidth, 0, canvasWidth - 1, height - 1);
 
@@ -66,9 +68,9 @@ public class ResultCanvas extends PApplet {
 		popMatrix();
 		pushMatrix();
 		if (size * data.getResult().size() / 9 > this.canvasHeight) {
-			this.translateY = -handleY * (size * data.getResult().size() - 800) / 800;
+			this.translateY = 10 - (handleY) * (size * data.getResult().size() - canvasHeight) / canvasHeight;
 		} else {
-			this.translateY = 0;
+			this.translateY = 10;
 		}
 
 		translate(0, this.translateY);
@@ -103,7 +105,13 @@ public class ResultCanvas extends PApplet {
 		} else {
 			int indexX = (int) (mouseX / size);
 			int indexY = (int) (mouseY - this.translateY) / size;
-			data.setSketch(data.getResult().get(indexY * 9 + indexX).getSampleList());
+			int index = indexY * 9 + indexX;
+			if (data.selectedCluster == -1) {
+				data.setSketch(data.getResult().get(index).getSampleList());
+			} else {
+				int index2 = data.clusters.get(data.selectedCluster).indexList.get(index);
+				data.setSketch(data.getResult().get(index2).getSampleList());
+			}
 		}
 	}
 

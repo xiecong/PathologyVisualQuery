@@ -1,4 +1,4 @@
-package density;
+package densityUI;
 
 import database.DensityData;
 import processing.core.PApplet;

@@ -1,4 +1,4 @@
-package density;
+package densityUI;
 
 import processing.core.PApplet;
 

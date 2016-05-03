@@ -1,4 +1,4 @@
-package density;
+package densityUI;
 
 import database.DensityData;
 import database.Point;

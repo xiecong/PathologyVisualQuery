@@ -1,4 +1,4 @@
-package density;
+package densityUI;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -18,12 +18,6 @@ public class MainFrame {
 	DensityData dt = new DensityData();
 
 	public void addComponentsToPane(Container pane) {
-
-		if (!(pane.getLayout() instanceof BorderLayout)) {
-			pane.add(new JLabel("Container doesn't use BorderLayout!"));
-			return;
-		}
-
 		JPanel buttonpanel = new JPanel();
 		final JLabel statuslabel = new JLabel("Ready");
 		pane.add(buttonpanel, BorderLayout.PAGE_START);

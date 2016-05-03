@@ -10,7 +10,7 @@ public class ShapeData {
 	ShapePolygon sketch = new ShapePolygon();
 	ArrayList<ShapePolygon> shapes = new ArrayList<ShapePolygon>();
 	NewickNode root;
-	int clusterNum = 5;
+	int clusterNum = 8;
 	public int selectedCluster = -1;
 	public ArrayList<NewickNode> clusters = new ArrayList<NewickNode>();
 	Query query = new Query(this);
@@ -21,6 +21,9 @@ public class ShapeData {
 
 	public boolean getNewSketch() {
 		return newSketch;
+	}
+	public void setClusterNum(int k){
+		this.clusterNum = k;
 	}
 
 	public void setTree(String graph) {
@@ -38,6 +41,7 @@ public class ShapeData {
 	}
 
 	public void getClusterAverage() {
+		System.out.println(clusterNum);
 		clusters.add(root);
 		for (int i = 1; i < clusterNum; i++) {
 			int split = -1;

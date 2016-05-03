@@ -67,7 +67,7 @@ public class DensityData {
 		}
 		sketchMax += 1;
 		double sketchRange = sketchMax - sketchMin;
-		System.out.println("sketch intensity " + sketchMin + "," + sketchMax);
+		//System.out.println("sketch intensity " + sketchMin + "," + sketchMax);
 		int count = 0;
 		for (int x = 0; x < xWidth - sketchSize; x++) {
 			for (int y = 0; y < yWidth - sketchSize; y++) {
@@ -98,12 +98,12 @@ public class DensityData {
 				}
 				if (diff < threshold) {
 					SketchResultList.add(new Point(x, y));
-					System.out.println(x * 100 + "," + (x + 10) * 100 + "," + y * 100 + "," + (y + 10) * 100);
+					//System.out.println(x * 100 + "," + (x + 10) * 100 + "," + y * 100 + "," + (y + 10) * 100);
 					count++;
 				}
 			}
 		}
-		System.out.println(count + " results");
+		System.out.println("find "+count + " results");
 	}
 
 	public int getSketchSize() {
