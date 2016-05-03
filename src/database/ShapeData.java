@@ -10,7 +10,7 @@ public class ShapeData {
 	ArrayList<ShapePolygon> shapes = new ArrayList<ShapePolygon>();
 	NewickNode root;
 	int clusterNum = 5;
-	ArrayList<NewickNode> clusters = new ArrayList<NewickNode>();
+	public ArrayList<NewickNode> clusters = new ArrayList<NewickNode>();
 	Query query = new Query(this);
 	// boolean isSketch = false;
 	boolean sketching = false;
@@ -33,6 +33,24 @@ public class ShapeData {
 			System.out.print(", " + shapes.get(0).turningList.get(i));
 		}
 		System.out.println();
+	}
+
+	public void getClusterAverage() {
+		clusters.add(root);
+		for (int i = 1; i < clusterNum; i++) {
+			int split = -1;
+			double val = Double.MAX_VALUE;
+			for (int j = 0; j < clusters.size(); j++) {
+				if (val > clusters.get(j).value) {
+					split = j;
+					val = clusters.get(j).value;
+				}
+			}
+			for (int j = 0; j < clusters.get(split).numChildren(); j++) {
+				clusters.add(clusters.get(split).getChild(j));
+			}
+			clusters.remove(split);
+		}
 	}
 
 	public void setSketch(ArrayList<Point> polygonList) {

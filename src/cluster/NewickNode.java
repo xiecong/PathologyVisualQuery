@@ -6,7 +6,7 @@ import database.ShapePolygon;
 
 public class NewickNode {
 	public int index;
-	private double value = 0;
+	public double value = 0;
 	private ArrayList<NewickNode> childVec = new ArrayList<NewickNode>();
 	public ArrayList<Integer> indexList = new ArrayList<Integer>();
 	public ArrayList<Double> turningList = new ArrayList<Double>();

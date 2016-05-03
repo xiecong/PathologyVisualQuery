@@ -38,6 +38,7 @@ public class MainFrame {
 				Cluster cluster = new Cluster();
 				String graph = cluster.shapeClustering(30, data.getResult());
 				data.setTree(graph.substring(7) + ":0");
+				data.getClusterAverage();
 			}
 		});
 		
@@ -52,11 +53,12 @@ public class MainFrame {
 		pane.add(rc, BorderLayout.LINE_END);
 		rc.init();
 		rc.setPreferredSize(rcDimension);
-		
-		ClusterCanvas cc = new ClusterCanvas(data);
+
+		Dimension ccDimension = new Dimension(1200, 250);
+		ClusterCanvas cc = new ClusterCanvas(data, ccDimension);
 		pane.add(cc, BorderLayout.PAGE_END);
 		cc.init();
-		cc.setPreferredSize(new Dimension(1200, 250));
+		cc.setPreferredSize(ccDimension);
 
 		/*
 		 * JPanel statuspanel = new JPanel(); pane.add(statuspanel,
