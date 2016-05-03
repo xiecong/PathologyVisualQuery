@@ -10,7 +10,7 @@ import processing.core.PApplet;
 //canvas for returned result
 public class ResultCanvas extends PApplet {
 	ShapeData data;
-	int wHeight = 60;
+	int size = 60;
 	int canvasWidth = 200;
 	float handleX;
 	float handleY;
@@ -20,9 +20,11 @@ public class ResultCanvas extends PApplet {
 	int handleFill = 150;
 	int windowWidth;
 	float translateY = 0;
+	private int canvasHeight;
 
 	public ResultCanvas(ShapeData data, Dimension dimension) {
 		this.canvasWidth = dimension.width;
+		this.canvasHeight = dimension.height;
 		this.data = data;
 	}
 
@@ -56,17 +58,15 @@ public class ResultCanvas extends PApplet {
 
 		fill(handleFill);
 		rect(handleX, handleY, handleW, handleH);
-		if (isDraggable && mouseY > handleH / 2
-				&& mouseY < height - handleH / 2) {
+		if (isDraggable && mouseY > handleH / 2 && mouseY < height - handleH / 2) {
 			handleY = mouseY - handleH / 2;
 		}
 		pushMatrix();
 		translate(10, 10);
 		popMatrix();
 		pushMatrix();
-		if (wHeight * data.getResult().size() > 800) {
-			this.translateY = -handleY
-					* (wHeight * data.getResult().size() - 800) / 800;
+		if (size * data.getResult().size() / 9 > this.canvasHeight) {
+			this.translateY = -handleY * (size * data.getResult().size() - 800) / 800;
 		} else {
 			this.translateY = 0;
 		}
@@ -76,17 +76,18 @@ public class ResultCanvas extends PApplet {
 		if (data.selectedCluster == -1) {
 			for (int i = 0; i < data.getResult().size(); i++) {
 				pushMatrix();
-				translate(canvasWidth / 2, (i + 0.5f) * wHeight);
+				int x = i % 9, y = i / 9;
+				translate((x + 0.5f) * size, (y + 0.5f) * size);
 				ShapePolygon s = data.getResult().get(i);
 				drawPolygon(s);
 				popMatrix();
 			}
 		} else {
-			ArrayList<Integer> indexList = data.clusters
-					.get(data.selectedCluster).indexList;
+			ArrayList<Integer> indexList = data.clusters.get(data.selectedCluster).indexList;
 			for (int i = 0; i < indexList.size(); i++) {
 				pushMatrix();
-				translate(canvasWidth / 2, (i + 0.5f) * wHeight);
+				int x = i % 9, y = i / 9;
+				translate((x + 0.5f) * size, (y + 0.5f) * size);
 				ShapePolygon s = data.getResult().get(indexList.get(i));
 				drawPolygon(s);
 				popMatrix();
@@ -96,13 +97,13 @@ public class ResultCanvas extends PApplet {
 	}
 
 	public void mousePressed() {
-		if (mouseX > handleX && mouseX < handleX + handleW && mouseY > handleY
-				&& mouseY < handleY + handleH) {
+		if (mouseX > handleX && mouseX < handleX + handleW && mouseY > handleY && mouseY < handleY + handleH) {
 			isDraggable = true;
 			handleFill = color(100, 200, 255);
 		} else {
-			int index = (int) (mouseY - this.translateY) / wHeight;
-			data.setSketch(data.getResult().get(index).getSampleList());
+			int indexX = (int) (mouseX / size);
+			int indexY = (int) (mouseY - this.translateY) / size;
+			data.setSketch(data.getResult().get(indexY * 9 + indexX).getSampleList());
 		}
 	}
 
@@ -112,8 +113,7 @@ public class ResultCanvas extends PApplet {
 	}
 
 	public void mouseMoved() {
-		if (mouseX > handleX && mouseX < handleX + handleW && mouseY > handleY
-				&& mouseY < handleY + handleH) {
+		if (mouseX > handleX && mouseX < handleX + handleW && mouseY > handleY && mouseY < handleY + handleH) {
 			cursor(HAND);
 		} else {
 			cursor(ARROW);

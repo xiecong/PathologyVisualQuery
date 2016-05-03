@@ -41,9 +41,9 @@ public class ShapeData {
 		clusters.add(root);
 		for (int i = 1; i < clusterNum; i++) {
 			int split = -1;
-			double val = Double.MAX_VALUE;//-1;
+			double val = -1;
 			for (int j = 0; j < clusters.size(); j++) {
-				if (val > clusters.get(j).value) {
+				if (val < clusters.get(j).value) {
 					split = j;
 					val = clusters.get(j).value;
 				}
