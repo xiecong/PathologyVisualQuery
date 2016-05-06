@@ -112,7 +112,7 @@ public class Query {
 	public void matchShape(ArrayList<Double> sketchList) {
 		shapeSketchdata.clearShapes();
 		try {
-			String query = "select * from markup limit 1000000";
+			String query = "select * from markup limit 100000";
 			ResultSet rs = stmt.executeQuery(query.toUpperCase());
 			while (rs.next()) {
 				String[] turnings = rs.getString("turnings").trim().split(",");

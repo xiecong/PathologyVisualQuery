@@ -1,18 +1,23 @@
 package densityUI;
 
+import java.awt.Dimension;
+
 import database.DensityData;
+import database.Line;
 import database.Point;
 import processing.core.PApplet;
 
 public class ResultCanvas extends PApplet {
 	DensityData dt;
+	int canvasWidth, canvasHeight;
 
-	public ResultCanvas(DensityData dt) {
+	public ResultCanvas(DensityData dt, Dimension dim) {
+		this.canvasWidth = dim.width;
+		this.canvasHeight = dim.height;
 		this.dt = dt;
 	}
 
 	int wHeight = 130;
-	int canvasWidth = 200;
 	float handleX;
 	float handleY;
 	float handleW = 20;
@@ -37,7 +42,8 @@ public class ResultCanvas extends PApplet {
 		noStroke();
 		for (int i = 0; i < dt.getSketchSize(); i++) {
 			for (int j = 0; j < dt.getSketchSize(); j++) {
-				int position = ((int) p.x + i) * dt.getHeight() + ((int) p.y + j);
+				int position = ((int) p.x + i) * dt.getHeight()
+						+ ((int) p.y + j);
 				fill((255 - (float) dt.getTiles()[position] * 255 / 36));
 				rect(i * 10, j * 10, 10, 10);
 			}
@@ -56,7 +62,8 @@ public class ResultCanvas extends PApplet {
 
 		fill(handleFill);
 		rect(handleX, handleY, handleW, handleH);
-		if (isDraggable && mouseY > handleH / 2 && mouseY < height - handleH / 2) {
+		if (isDraggable && mouseY > handleH / 2
+				&& mouseY < height - handleH / 2) {
 			handleY = mouseY - handleH / 2;
 		}
 		pushMatrix();
@@ -64,7 +71,8 @@ public class ResultCanvas extends PApplet {
 		popMatrix();
 		pushMatrix();
 		if (wHeight * dt.getSketchList().size() > 800) {
-			this.translateY = -handleY * (wHeight * dt.getSketchList().size() - 800) / 800;
+			this.translateY = -handleY
+					* (wHeight * dt.getSketchList().size() - 800) / 800;
 		} else {
 			this.translateY = 0;
 		}
@@ -78,7 +86,8 @@ public class ResultCanvas extends PApplet {
 	}
 
 	public void mousePressed() {
-		if (mouseX > handleX && mouseX < handleX + handleW && mouseY > handleY && mouseY < handleY + handleH) {
+		if (mouseX > handleX && mouseX < handleX + handleW && mouseY > handleY
+				&& mouseY < handleY + handleH) {
 			isDraggable = true;
 			handleFill = color(100, 200, 255);
 		} else {
@@ -94,7 +103,8 @@ public class ResultCanvas extends PApplet {
 	}
 
 	public void mouseMoved() {
-		if (mouseX > handleX && mouseX < handleX + handleW && mouseY > handleY && mouseY < handleY + handleH) {
+		if (mouseX > handleX && mouseX < handleX + handleW && mouseY > handleY
+				&& mouseY < handleY + handleH) {
 			cursor(HAND);
 		} else {
 			cursor(ARROW);

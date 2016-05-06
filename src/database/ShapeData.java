@@ -10,7 +10,7 @@ public class ShapeData {
 	ShapePolygon sketch = new ShapePolygon();
 	ArrayList<ShapePolygon> shapes = new ArrayList<ShapePolygon>();
 	NewickNode root;
-	int clusterNum = 8;
+	int clusterNum = 4;
 	public int selectedCluster = -1;
 	public ArrayList<NewickNode> clusters = new ArrayList<NewickNode>();
 	Query query = new Query(this);

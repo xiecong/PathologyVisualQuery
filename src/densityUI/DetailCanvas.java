@@ -2,6 +2,7 @@ package densityUI;
 
 import processing.core.PApplet;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 
 import database.DensityData;
@@ -10,9 +11,12 @@ import database.ShapePolygon;
 
 public class DetailCanvas extends PApplet {
 	DensityData dt;
-	int x = 3800, y = 23000;
+	//int x = 3800, y = 23000;
+	int canvasWidth,canvasHeight;
 
-	public DetailCanvas(DensityData dt) {
+	public DetailCanvas(DensityData dt, Dimension dim) {
+		this.canvasWidth = dim.width;
+		this.canvasHeight = dim.height;
 		this.dt = dt;
 	}
 
@@ -36,13 +40,13 @@ public class DetailCanvas extends PApplet {
 		Point p = dt.getSelectedWindow();
 		if (p != null) {
 			ArrayList<ShapePolygon> sList = dt.getShapeList();
-			translate(-(float) p.x * 100, -(float) p.y * 100);
+			translate(-(float) p.x * 100/2, -(float) p.y * 100/2);
 			for (int i = 0; i < sList.size(); i++) {
 				ArrayList<Point> pList = sList.get(i).getPolygonList();
 				for (int j = 1; j < pList.size(); j++) {
 					Point p1 = pList.get(j - 1);
 					Point p2 = pList.get(j);
-					line((float) p1.x, (float) p1.y, (float) p2.x, (float) p2.y);
+					line((float) p1.x/2, (float) p1.y/2, (float) p2.x/2, (float) p2.y/2);
 				}
 			}
 		}

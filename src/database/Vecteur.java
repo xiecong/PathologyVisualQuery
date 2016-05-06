@@ -8,6 +8,10 @@ public class Vecteur {
 		this.x = x;
 		this.y = y;
 	}
+	public void add(double x, double y){
+		this.x += x;
+		this.y += y;
+	}
 
 	public static double angle(Vecteur v1, Vecteur v2) {
 		double l1 = Math.sqrt(v1.x * v1.x + v1.y * v1.y);
