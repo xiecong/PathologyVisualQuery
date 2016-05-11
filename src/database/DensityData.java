@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class DensityData {
-	int xWidth = 1106;
-	int yWidth = 487;
-	int[] tiles = new int[xWidth * yWidth];
+	public int xWidth = 1106;
+	public int yWidth = 487;
+	public int[] tiles = new int[xWidth * yWidth];
 	int maxDensity = 0;
 	ArrayList<Point> emptyWindowList = new ArrayList<Point>();
 	ArrayList<ShapePolygon> sList = new ArrayList<ShapePolygon>();
@@ -16,7 +16,7 @@ public class DensityData {
 	double[] sketch = new double[sketchSize * sketchSize];
 	public Vecteur[] vectorField = new Vecteur[sketchSize * sketchSize];
 	ArrayList<Point> SketchResultList = new ArrayList<Point>();
-	int selectedSketch = -1;
+	public int selectedSketch = -1;
 	public int sketchType = 0;
 	public ArrayList<Line> lines = new ArrayList<Line>();
 	public int lineNum = 0;
